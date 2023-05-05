@@ -2,18 +2,22 @@ package com.yrgo.dataaccess;
 
 import com.yrgo.domain.Call;
 import com.yrgo.domain.Customer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
+@Repository
 public class CustomerDaoJDBCTemplateImpl implements CustomerDao {
 
     private JdbcTemplate template;
 
+    @Autowired
     public CustomerDaoJDBCTemplateImpl(JdbcTemplate template) {
         this.template = template;
     }
@@ -73,6 +77,7 @@ public class CustomerDaoJDBCTemplateImpl implements CustomerDao {
         template.update("INSERT INTO TBL_CALL(NOTES, TIME_AND_DATE, CUSTOMER_ID) VALUES (?, ?, ?)", newCall.getNotes(), newCall.getTimeAndDate(), customerId);
 
     }
+
 
     private class CustomerRowMapper implements RowMapper<Customer> {
 
