@@ -9,6 +9,7 @@
     http://www.springframework.org/schema/aop
     http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
+	<context:component-scan base-package="com.yrgo" />
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" >
 		<property name="driverClassName" value="org.hsqldb.jdbc.JDBCDriver"/>
@@ -17,8 +18,15 @@
 		<property name="password" value=""/>
 	</bean>
 
-	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-		<constructor-arg ref="dataSource"/>
+	<bean id="entityManagerFactory" class= "org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="jpaVendorAdapter">
+			<bean class= "org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="showSql" value="true"/>
+				<property name="generateDdl" value="true"/>
+			</bean>
+		</property>
+		<property name="packagesToScan" value="com.yrgo"/>
+		<property name="dataSource" ref="dataSource"/>
 	</bean>
 
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
